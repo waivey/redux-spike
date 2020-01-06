@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 const containerStyle = {
     display: 'flex'
@@ -11,14 +12,23 @@ const buttonStyle = {
 }
 
 class Counter extends React.Component {
+
+    addOne = () => {
+        this.props.dispatch({type: 'ADD_ONE'});
+    }
+    
+    minusOne = () => {
+        this.props.dispatch({type: 'MINUS_ONE'});
+    }
+
     render() {
         return(
             <main className='App'>
                 <header className='App-header'>
-                    <h1>0</h1>
+        <h1>{this.props.number}</h1>
                     <div style={containerStyle}>
-                        <button type='button' style={buttonStyle}>-</button>
-                        <button type='button' style={buttonStyle}>+</button>
+                        <button onClick={this.minusOne} type='button' style={buttonStyle}>-</button>
+                        <button onClick={this.addOne} type='button' style={buttonStyle}>+</button>
                     </div>
                 </header>
             </main>
@@ -26,4 +36,12 @@ class Counter extends React.Component {
     }
 }
 
-export default Counter;
+const mapStateToProps = (state) => {
+    return {
+        number: state.number
+    };
+}
+
+
+
+export default connect(mapStateToProps)(Counter);
